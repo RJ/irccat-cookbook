@@ -1,0 +1,5 @@
+#!/bin/sh
+export HOME=/opt/irccat
+exec 2>&1
+
+exec chpst -u <%= node[:irccat][:user] %> $HOME/irccat.sh /etc/irccat/irccat.xml

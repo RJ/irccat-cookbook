@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- CREATED BY CHEF, HANDS OFF -->
+<irccat-definition>
+
+        <!-- The IRC Server the bot will connect to -->
+        <server>
+                <address><%= node[:irccat][:ircd_host] %></address>
+                <port><%= node[:irccat][:ircd_port] %></port>
+                <% if node[:irccat][:ircd_password] %>
+                <password><%= node[:irccat][:ircd_password] %></password>
+                <% end %>
+                <% if node[:irccat][:nickserv_password] %>
+                <identify><%= node[:irccat][:nickserv_password] %></identify>
+                <% end %>
+        </server>
+
+        <bot>
+                <nick><%= node[:irccat][:nick] %></nick>
+                <!-- The number of milliseconds between each outgoing message in the bot's queue -->
+                <messagedelay>250</messagedelay>
+        </bot>
+
+        <!-- Address/port to listen on for data to cat to IRC -->
+        <cat>
+                <port><%= node[:irccat][:cat_port] %></port>
+                <ip><%= node[:irccat][:cat_host] %></ip>
+        </cat>
+
+        <!-- Settings for calling external scripts to handle commands -->
+        <script>
+                <cmdhandler><%= node[:irccat][:script_path] %></cmdhandler>
+                <maxresponselines>15</maxresponselines>
+        </script>
+
+        <!-- Which channels to join on startup -->
+        <!-- First channel in list is "default channel", and all members are implicitly trusted -->
+        <channels>
+            <% for chan in node[:irccat][:channels] %>
+                <channel>
+                        <name><%= chan[:name] %></name>
+                        <password><%= chan[:key] %></password>
+                </channel>
+            <% end %>
+        </channels>
+</irccat-definition>
