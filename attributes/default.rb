@@ -11,3 +11,4 @@ default[:irccat][:cat_host] = "127.0.0.1"
 default[:irccat][:script_path] = "/etc/irccat/handler.sh"
 default[:irccat][:channels] = [ { :name => "#test", :key => "" } ]
 default[:irccat][:user] = "irccat"
+default[:irccat][:realname] = "irccat"
