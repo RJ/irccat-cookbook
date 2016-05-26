@@ -38,6 +38,7 @@ template "/etc/irccat/irccat.xml" do
 end
 
 runit_service "irccat" do
+    default_logger true
     supports :status => false, :restart => false
     action [ :enable, :start ]
 end
