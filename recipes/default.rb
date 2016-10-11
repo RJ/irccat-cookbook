@@ -8,20 +8,26 @@ if node[:irccat][:create_user]
     end
 end
 
+directory '/opt/irccat' do
+    user node[:irccat][:user]
+end
+
 git "/opt/irccat" do
+    user node[:irccat][:user]
     repository node[:irccat][:git_url]
     reference "master"
     action :checkout
 end
 
+bash "Ensure /opt/irccat belongs to #{node[:irccat][:user]}" do
+    code "chown -R #{node[:irccat][:user]} /opt/irccat"
+end
+
 script "Compile IRCCat" do
     interpreter "bash"
-    user "root"
-    code <<-EOF
-    cd /opt/irccat
-    chown -R #{node[:irccat][:user]} .
-    sudo -Eu #{node[:irccat][:user]} ant dist
-    EOF
+    user node[:irccat][:user]
+    cwd '/opt/irccat'
+    code 'ant dist'
     creates "/opt/irccat/dist/irccat.jar"
 end
 
